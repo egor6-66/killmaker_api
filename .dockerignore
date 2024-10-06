@@ -1,0 +1,8 @@
+/.husky
+.gitignore
+.git
+.prettierrc.js
+lint-staged.config.js
+README.md
+node_modules
+npm-debug.log

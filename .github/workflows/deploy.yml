@@ -1,0 +1,22 @@
+#name: Deploy
+#on:
+#  push:
+#    branches: [ main ]
+#jobs:
+#  build:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Deploy using ssh
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ secrets.HOST }}
+#          username: ${{ secrets.USER_NAME }}
+#          key: ${{ secrets.SSH_PRIVATE_KEY }}
+#          port: 22
+#          script: |
+#            cd /root/deathmatch-server
+#            git pull origin main
+#            git status
+#            npm install
+#            docker compose -f docker-compose.yml -f docker-compose.prod.yml up
+#            exit 0

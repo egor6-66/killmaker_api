@@ -1,0 +1,54 @@
+services:
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    volumes:
+      - .:/app:delegated
+      - /app/node_modules
+    working_dir: /app
+    env_file:
+      - .env.development
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - deathmatch.net
+    restart: always
+    ports:
+      - 5000:5000
+
+  redis:
+    container_name: redis
+    image: redis:alpine
+    env_file:
+      - .env.development
+    networks:
+      - deathmatch.net
+    ports:
+      - 6379:6379
+
+  postgres:
+    container_name: postgres
+    image: postgres:15.2
+    env_file:
+      - .env.development
+    networks:
+      - deathmatch.net
+    ports:
+      - 5430:5432
+    environment:
+      PG_DATA: /var/lib/postgresql/data
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  pgdata:
+
+networks:
+  deathmatch.net:
+    name: deathmatch.net
+    external: true

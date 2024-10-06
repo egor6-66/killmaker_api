@@ -1,0 +1,101 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type ClientApp {
+  id: Int!
+  lang: String
+  theme: String
+}
+
+type User {
+  id: Int
+  first_name: String
+  last_name: String
+  avatar: String
+  nickname: String
+  isOnline: Boolean
+  clientApp: ClientApp
+  ownedServers: [GameServer!]!
+  activeServer: GameServer!
+}
+
+type GameServer {
+  id: Int!
+  name: String!
+  private: Boolean
+  usersCount: Float
+  owner: User!
+  map: GameMap!
+  users: [User!]!
+}
+
+type GameMap {
+  id: Int!
+  author: String!
+  preview: String!
+  model: String
+  name: String!
+  textureSize: String!
+  servers: [GameServer!]!
+}
+
+type NewPeer {
+  peers: [Int!]
+  createOffer: Boolean!
+}
+
+type NewSDP {
+  peerId: Int!
+  sdp: String!
+}
+
+type NewIceCandidate {
+  peerId: Int!
+  iceCandidate: String!
+}
+
+type Query {
+  viewer: User
+  viewerServers: [GameServer!]
+  allServers: [GameServer!]
+  server(id: Int!): GameServer
+  gameMaps: [GameMap!]
+}
+
+type Mutation {
+  newServer(data: CreateServer!): GameServer
+  joinServer(id: Int!): Boolean!
+  leaveServer(id: Int!): Boolean!
+  sendSDP(data: SDP!): Boolean!
+  sendIceCandidate(data: IceCandidate!): Boolean!
+}
+
+input CreateServer {
+  name: String!
+  password: String!
+  mapId: Int!
+}
+
+input SDP {
+  peerId: Int!
+  initiator: Int!
+  serverId: Int!
+  sdp: String!
+}
+
+input IceCandidate {
+  peerId: Int!
+  initiator: Int!
+  serverId: Int!
+  iceCandidate: String!
+}
+
+type Subscription {
+  newServer: GameServer
+  updateServer: GameServer!
+  newPeer: NewPeer!
+  removePeer: Int!
+  newSDP: NewSDP!
+  newIceCandidate: NewIceCandidate!
+}
